@@ -4,14 +4,15 @@ import "./App.css";
 import Footer from "./components/Footer";
 
 function App() {
-  const [count, setCount] = useState(0);
   const [ourData, setOurData] = useState("");
-  const [paramos, setParamos] = useState("");
+  const [paramos, setParamos] = useState(null);
 
   const fetchData = async () => {
     const options = {
       method: "GET",
-      url: `https://free-images-api.p.rapidapi.com/images/${paramos}`,
+      url: `https://free-images-api.p.rapidapi.com/images/${
+        paramos || "wallpaper"
+      }`,
       headers: {
         "X-RapidAPI-Key": "ab9cefa600msh83963bcbb17c559p126fecjsn13fe0f01fb7d",
         "X-RapidAPI-Host": "free-images-api.p.rapidapi.com",
@@ -26,6 +27,9 @@ function App() {
       console.error(error);
     }
   };
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const handleOnChange = (e) => {
     setParamos(e.target.value);
