@@ -34,6 +34,7 @@
   cursor: pointer;
   transition: border-color 0.25s;
   margin-right: 20px;
+  color: white;
 }
 .content {
   display: flex;
