@@ -4,7 +4,7 @@ const Footer = () => {
   return (
     <footer className="footer">
       <p>
-        API and this Webpage Created By <span>Mohssin Aoulad</span>
+        API and Webpage Created By <span>Mohssin Aoulad</span>
       </p>
       <p>© {currentYear} - All Rights Reserved. </p>
     </footer>

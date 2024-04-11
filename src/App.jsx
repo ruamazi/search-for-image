@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import Footer from "./components/Footer";
+import { truncateText } from "./truncateText";
 
 function App() {
   const [ourData, setOurData] = useState("");
@@ -40,15 +41,6 @@ function App() {
     fetchData();
     setParamos("");
   };
-  function truncateText(text) {
-    const words = text.split(" ");
-    if (words.length > 4) {
-      const truncatedText = words.slice(0, 4).join(" ") + "...";
-      return truncatedText;
-    }
-    return text;
-  }
-
   return (
     <div className="app">
       <div className="top">
@@ -56,6 +48,11 @@ function App() {
           placeholder="Search for somthing..."
           type="text"
           onChange={(e) => handleOnChange(e)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleClick();
+            }
+          }}
         />
         <button onClick={handleClick}>Search</button>
       </div>
