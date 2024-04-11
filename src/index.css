@@ -5,7 +5,6 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -76,7 +75,6 @@ button:focus-visible {
 }
 .footer {
   height: 70px;
-  margin-top: 30px;
   background: linear-gradient(
     to right,
     transparent,

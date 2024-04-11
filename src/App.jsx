@@ -1,30 +1,32 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import "./App.css";
 import Footer from "./components/Footer";
 
 function App() {
   const [ourData, setOurData] = useState("");
   const [paramos, setParamos] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [seeFullText, setSeeFullText] = useState(false);
 
   const fetchData = async () => {
-    const options = {
-      method: "GET",
-      url: `https://free-images-api.p.rapidapi.com/images/${
-        paramos || "wallpaper"
-      }`,
-      headers: {
-        "X-RapidAPI-Key": "ab9cefa600msh83963bcbb17c559p126fecjsn13fe0f01fb7d",
-        "X-RapidAPI-Host": "free-images-api.p.rapidapi.com",
-      },
-    };
+    const url = `https://free-images-api.p.rapidapi.com/images/${
+      paramos || "wallpaper"
+    }`;
 
     try {
-      const response = await axios.request(options);
-      const { results } = response.data;
-      setOurData(results);
-    } catch (error) {
-      console.error(error);
+      setIsLoading(true);
+      const resp = await fetch(url, {
+        headers: {
+          "X-RapidAPI-Key": import.meta.env.VITE_API_KEY,
+          "X-RapidAPI-Host": "free-images-api.p.rapidapi.com",
+        },
+      });
+      const data = await resp.json();
+      setOurData(data.results);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoading(false);
     }
   };
   useEffect(() => {
@@ -38,22 +40,45 @@ function App() {
     fetchData();
     setParamos("");
   };
-  console.log(paramos);
+  function truncateText(text) {
+    const words = text.split(" ");
+    if (words.length > 4) {
+      const truncatedText = words.slice(0, 4).join(" ") + "...";
+      return truncatedText;
+    }
+    return text;
+  }
+
   return (
     <div className="app">
       <div className="top">
-        <input type="text" onChange={(e) => handleOnChange(e)} />
-        <button onClick={handleClick}>Get data</button>
+        <input
+          placeholder="Search for somthing..."
+          type="text"
+          onChange={(e) => handleOnChange(e)}
+        />
+        <button onClick={handleClick}>Search</button>
       </div>
+
       <div className="content">
-        {ourData ? (
+        {!isLoading && ourData ? (
           ourData?.map((item) => {
             return (
               <div key={item.id} className="container">
                 <img src={item.diffrentSizes[3]} alt="image" />
-                <a href={item.download}>
-                  <button>download</button>
-                </a>
+                {item.download !== "" ? (
+                  <a href={item.download}>
+                    <button>download</button>
+                  </a>
+                ) : (
+                  <div>
+                    <button onClick={() => setSeeFullText((prev) => !prev)}>
+                      {seeFullText
+                        ? item.description
+                        : truncateText(item.description)}
+                    </button>
+                  </div>
+                )}
               </div>
             );
           })
@@ -61,6 +86,7 @@ function App() {
           <p>Loading...</p>
         )}
       </div>
+
       <Footer />
     </div>
   );

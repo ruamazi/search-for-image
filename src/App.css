@@ -41,6 +41,7 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
+  min-height: 82vh;
 }
 .container img {
   width: 300px;
