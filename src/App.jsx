@@ -80,7 +80,7 @@ function App() {
             );
           })
         ) : (
-          <p>Loading...</p>
+          <span class="loader"></span>
         )}
       </div>
 
