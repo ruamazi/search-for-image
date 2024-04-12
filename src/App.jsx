@@ -10,9 +10,9 @@ function App() {
   const [seeFullText, setSeeFullText] = useState(false);
 
   const fetchData = async () => {
-    const url = `https://free-images-api.p.rapidapi.com/images/${
+    const url = `https://free-images-api.p.rapidapi.com/v2/${
       paramos || "wallpaper"
-    }`;
+    }/1`;
 
     try {
       setIsLoading(true);
@@ -41,6 +41,7 @@ function App() {
     fetchData();
     setParamos("");
   };
+
   return (
     <div className="app">
       <div className="top">
